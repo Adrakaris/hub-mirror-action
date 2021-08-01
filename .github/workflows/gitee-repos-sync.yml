@@ -13,6 +13,7 @@ name: Gitee repos mirror periodic sync job
 on:
      # Push trigger when push
   #push:
+  workflow-dispatch:
      # Timing task trigger
   schedule:
          # Run every day at 9 o'clock Beijing time
