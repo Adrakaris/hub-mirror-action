@@ -1,0 +1,57 @@
+########################################
+#
+#Use reference
+#https://zhuanlan.zhihu.com/p/102977226
+#http://yikun.github.io/2020/01/17/%E5%B7%A7%E7%94%A8Github-Action%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81%E5%88%B0Gitee/
+#https://github.com/Yikun/hub-mirror-action/blob/master/README_CN.md
+#https://help.github.com/cn/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+#
+ # It is recommended to import the github project on gitee first, and then edit this file to increase the synchronization function. In this way, you can make good use of gitee's forced synchronization function.
+########################################
+name: Gitee repos mirror periodic sync job
+
+on:
+     # Push trigger when push
+  #push:
+     # Timing task trigger
+  schedule:
+         # Run every day at 9 o'clock Beijing time
+    # Runs at 01:00 UTC (9:00 AM Beijing) every day
+    - cron:  '0 1 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Cache Adrakaris src repos
+             # Refer to the major version of the release
+      uses: actions/cache@v1
+      with:
+        path: /home/runner/work/Adrakaris/Adrakaris-cache
+        key: ${{ runner.os }}-Adrakaris-repos-cache
+
+    - name: Mirror the Github organization repos to Gitee.
+             # Script support for referencing the master branch
+      uses: Adrakaris/hub-mirror-action@master
+      with:
+                 # The source account name to be synchronized, such as github/Adrakaris means the Adrakaris account of Github.
+        src: github/Adrakaris
+                 # The name of the destination account that needs to be synchronized, such as gitee/Adrakaris means Gitee’s Adrakaris account.
+        dst: gitee/Adrakaris
+                 # SSH key used to upload code at the destination, used to upload code
+        dst_key: ${{ secrets.GHGITEE_PRIVATE_KEY }}
+                 # Create warehouse API tokens, used to automatically create a warehouse that does not exist
+        dst_token: ${{ secrets.GITEE_TOKEN }}
+        account_type: user
+                 # Specify the directory cache
+        cache_path: /github/workspace/Adrakaris-cache
+                 # Whitelist, only synchronize repos in the whitelist, such as "repo1,repo2,repo3"
+        white_list: "hub-mirror-action,spark-example"
+                 # Only the static list is synchronized, and the list to be synchronized will no longer be dynamically obtained (the black and white list mechanism is still in effect)
+        static_list: "spark-example"
+                 # Mandatory update
+        force_update: true
+                 # clone mode, use http and ssh to clone
+        clone_style: "ssh"
