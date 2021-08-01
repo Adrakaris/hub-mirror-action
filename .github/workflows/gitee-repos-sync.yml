@@ -14,11 +14,16 @@ on:
      # Push trigger when push
   #push:
   workflow-dispatch:
+    inputs:
+      name:
+        description: 'Test'
+        required: false
+        default: 'NONE'
      # Timing task trigger
   schedule:
          # Run every day at 9 o'clock Beijing time
-    # Runs at 01:00 UTC (9:00 AM Beijing) every day
-    - cron:  '0 1 * * *'
+    # Runs at 01:11 UTC (9:11 AM Beijing) every day
+    - cron:  '11 1 * * *'
 
 jobs:
   build:
