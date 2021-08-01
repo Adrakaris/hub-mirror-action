@@ -49,9 +49,9 @@ jobs:
                  # Specify the directory cache
         cache_path: /github/workspace/Adrakaris-cache
                  # Whitelist, only synchronize repos in the whitelist, such as "repo1,repo2,repo3"
-        white_list: "hub-mirror-action,spark-example"
+        white_list: "Adrakaris.github.io,classical-chinese-lookup,guqin-jianzipu-font,spigot-spicyhearts,small"
                  # Only the static list is synchronized, and the list to be synchronized will no longer be dynamically obtained (the black and white list mechanism is still in effect)
-        static_list: "spark-example"
+        static_list: "Adrakaris.github.io,classical-chinese-lookup,guqin-jianzipu-font,spigot-spicyhearts,small"
                  # Mandatory update
         force_update: true
                  # clone mode, use http and ssh to clone
